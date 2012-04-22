@@ -50,7 +50,7 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap="YlGn",
     
     # row labels 
     pylab.yticks(range(0, len(orderedVal.index)), orderedVal.index)
-    pylab.xticks(range(0, len(orderedVal.index)), orderedVal.columns, rotation=90)
+    pylab.xticks(range(0, len(orderedVal.columns)), orderedVal.columns, rotation=90)
 
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
