@@ -7,16 +7,16 @@ import pylab, matplotlib
 cdict = { 'red': ((0.0, 0.0, 0.0), 
                 (0.5, 1.0, 1.0),
                 (1.0, 1.0, 1.0)),
-    'green' : ((0.0, 0.0, 0.0),
+          'green' : ((0.0, 0.0, 0.0),
                (0.5, 1.0, 1.0),
                (1.0, 0.0, 0.0)),
-        'blue' : ((0.0, 1.0, 1.0),
+          'blue' : ((0.0, 1.0, 1.0),
                   (0.5, 1.0, 1.0),
                   (1.0, 0.0, 0.0))}
 my_cmap = matplotlib.colors.LinearSegmentedColormap('my_colormap', cdict, 256)
 my_cmap.set_bad("0.9")
 
-def clusterHeatmap(df, title, row_label_map, col_label_map, colormap="YlGn", 
+def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
                    cluster_rows=False, cluster_columns=False,
                    row_dendrogram=False, column_dendrogram=False, width=30, height=20):
 
