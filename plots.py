@@ -18,7 +18,7 @@ my_cmap.set_bad("0.9")
 
 def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
                    cluster_rows=False, cluster_columns=False,
-                   row_dendrogram=False, column_dendrogram=False, width=30, height=20):
+                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3):
 
     cm = pylab.get_cmap(colormap)
     cm.set_bad("0.9")
@@ -57,6 +57,6 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
 
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
-    pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, norm=None, vmin=-3, vmax=3)
+    pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, norm=None, vmin=vmin, vmax=vmax)
     pylab.colorbar(shrink=0.2)
     #hcluster.dendrogram(Y, orientation='top')
