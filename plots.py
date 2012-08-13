@@ -55,6 +55,10 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
         pylab.yticks(range(0, len(orderedVal.index)), orderedVal.index)
     pylab.xticks(range(0, len(orderedVal.columns)), orderedVal.columns, rotation=90)
 
+    
+    if col_label_map is not None:
+        pylab.xticks(range(0, len(orderedVal.columns)), [col_label_map[i] for i in orderedVal.columns])                
+    
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
     pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, norm=None, vmin=vmin, vmax=vmax)
