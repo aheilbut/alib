@@ -18,7 +18,7 @@ my_cmap.set_bad("0.9")
 
 def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
                    cluster_rows=False, cluster_columns=False,
-                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3):
+                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation"):
 
     cm = pylab.get_cmap(colormap)
     cm.set_bad("0.9")
@@ -36,14 +36,14 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     orderedVal = df
     
     if cluster_rows:
-        distances = scipy.cluster.hierarchy.distance.pdist(df.values, 'correlation')
+        distances = scipy.cluster.hierarchy.distance.pdist(df.values, distmethod)
         rowY = scipy.cluster.hierarchy.linkage(distances)
         rowZ = scipy.cluster.hierarchy.dendrogram(rowY, orientation='right', no_plot=True)
         orderedVal = df.reindex(index=df.axes[0][rowZ['leaves']])
 
         
     if cluster_columns:
-        coldist = scipy.cluster.hierarchy.distance.pdist(df.values.transpose(), 'correlation')
+        coldist = scipy.cluster.hierarchy.distance.pdist(df.values.transpose(), distmethod)
         cY = scipy.cluster.hierarchy.linkage(coldist)
         cZ = scipy.cluster.hierarchy.dendrogram(cY, no_plot=True)    
         orderedVal = orderedVal.reindex(columns=df.axes[1][cZ['leaves']])
@@ -61,6 +61,6 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
-    pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, norm=None, vmin=vmin, vmax=vmax)
-    pylab.colorbar(shrink=0.2)
+    pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, aspect='auto', norm=None, vmin=vmin, vmax=vmax)
+    pylab.colorbar(shrink=0.1)
     #hcluster.dendrogram(Y, orientation='top')
