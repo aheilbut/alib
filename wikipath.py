@@ -20,7 +20,7 @@ class WikiPathSets():
             tree = etree.parse(open(f))
             root = tree.getroot()
             ids = []
-            # stupid datatabase returns pathways in two DIFFERENT versions of the format 
+            # stupid datatabase provides pathways in three different namespaces / format versions 
             for node in root.findall('{http://genmapp.org/GPML/2010a}DataNode'):
                 xref = node.find('{http://genmapp.org/GPML/2010a}Xref')
                 if xref.get("Database") == "Entrez Gene":
@@ -116,6 +116,12 @@ class WikiPathSets():
         for k in killist:
                 del self.mouse_wp_symbols[k]
     
+
+    def save_to_GCT(gct_filename):
+        gmtfile = open(gct_filename, "w")
+        for (key, values) in wp.mouse_wp_symbols.items():
+            gmtfile.write( "\t".join( [key.replace(" ", "_"), "http://www.wikipathways.org", "\t".join(values)] ) + "\n")
+        gmtfile.close()
     
     def get_wp_geneset_relation(self, symbol_set):
         "return wikipathways sets as a relational table"
@@ -126,6 +132,8 @@ class WikiPathSets():
         geneset_relation = pd.DataFrame(geneset_relation, columns=["geneset", "genesymbol"])
     
         return geneset_relation
+
+
 
 
 
