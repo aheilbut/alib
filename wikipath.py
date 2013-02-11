@@ -171,9 +171,12 @@ def calc_overlap_stats(test_set, geneset_dict, total_genes):
      axis=1)
     p = pd.DataFrame(p, columns=["hypergeom p-val"])
 
+    overlaps = overlaps.select(lambda x: overlaps.ix[x, "match_count"] > 0)
     overlaps = overlaps.merge(p, left_index=True, right_index=True).sort("hypergeom p-val", ascending=True)
-    overlaps["bonferroni"] = statsmodels.sandbox.stats.multicomp.multipletests(overlaps.ix[:,"hypergeom p-val"], method="bonferroni")[1]
-    overlaps["b-h fdr adj pval"] = statsmodels.sandbox.stats.multicomp.multipletests(overlaps.ix[:,"hypergeom p-val"].fillna(1.0), method="fdr_bh")[1]
+
+    if len(overlaps.index) > 0:
+        overlaps["bonferroni"] = statsmodels.sandbox.stats.multicomp.multipletests(overlaps.ix[:,"hypergeom p-val"], method="bonferroni")[1]
+        overlaps["b-h fdr adj pval"] = statsmodels.sandbox.stats.multicomp.multipletests(overlaps.ix[:,"hypergeom p-val"].fillna(1.0), method="fdr_bh")[1]
 
     return overlaps.sort("hypergeom p-val", ascending=True)
 
