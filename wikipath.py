@@ -12,6 +12,7 @@ import scipy.stats
 import statsmodels
 import statsmodels.sandbox
 
+import alib_local
     
 class WikiPathSets():
     def __init__(self):
@@ -95,30 +96,34 @@ class WikiPathSets():
 
 
     def load_wikipathways_sets(self):
-        self.ensembl_map = self.loadEnsemblMapping()
-        self.uniprot_idmap = self.loadUniProtMapping()
+#        self.ensembl_map = self.loadEnsemblMapping()
+#        self.uniprot_idmap = self.loadUniProtMapping()
     
-        self.gene_info = pd.DataFrame.from_csv("/data/adrian/data/ncbigene/gene_info.humanmouse.withHeader.tab", header=0, index_col=None, sep="\t")
+        self.gene_info = pd.DataFrame.from_csv(alib_local.datadir + "/gene_info.humanmouse.withHeader.tab", header=0, index_col=None, sep="\t")
     
         symbol_dict = dict(zip( [str(i) for i in self.gene_info["GeneID"]], [str(u).upper() for u in self.gene_info["Symbol"]]) )
     
-        mouse_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/wikipathways/mm/*.gpml")
-        hs_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/wikipathways/hs/gpml/*.gpml")
-        kegg_gs_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/Hsa-KEGG_20110518/*.gpml")
+#        mouse_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/wikipathways/mm/*.gpml")
+#        hs_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/wikipathways/hs/gpml/*.gpml")
+#        kegg_gs_wp_geneids = self.loadGPMLPathways("/data/adrian/Dropbox/Data/Hsa-KEGG_20110518/*.gpml")
     
+        wp_mm = pd.DataFrame.from_csv(alib_local.datadir + "/wp_mm_data.tab", sep="\t")
+
+        mouse_wp_geneids = dict( [(x, str(wp_mm.ix[x, "Entrez Gene"]).split(",")) for x in wp_mm.index] )
+
         self.mouse_wp_symbols = dict( [(set_name, list(set([symbol_dict[i] for i in gene_ids if i in symbol_dict])) ) 
         for (set_name, gene_ids) in mouse_wp_geneids.items()] )
     
-        self.hs_wp_symbols = dict([(set_name, list(set([symbol_dict[i] for i in gene_ids if i in symbol_dict])) ) 
-        for (set_name, gene_ids) in hs_wp_geneids.items()])
+#        self.hs_wp_symbols = dict([(set_name, list(set([symbol_dict[i] for i in gene_ids if i in symbol_dict])) ) 
+#        for (set_name, gene_ids) in hs_wp_geneids.items()])
     
-        self.kegg_hs_wp_symbols = dict( [(set_name, list(set([symbol_dict[i] for i in gene_ids if i in symbol_dict])) ) 
-        for (set_name, gene_ids) in kegg_gs_wp_geneids.items()] )
+#        self.kegg_hs_wp_symbols = dict( [(set_name, list(set([symbol_dict[i] for i in gene_ids if i in symbol_dict])) ) 
+#        for (set_name, gene_ids) in kegg_gs_wp_geneids.items()] )
     
     
-        killist = ["XPodNet", "PodNet", "PluriNetWork"]
-        for k in killist:
-                del self.mouse_wp_symbols[k]
+#        killist = ["XPodNet", "PodNet", "PluriNetWork"]
+#        for k in killist:
+ #               del self.mouse_wp_symbols[k]
     
 
     def save_to_GCT(gct_filename):
