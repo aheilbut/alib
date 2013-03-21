@@ -18,7 +18,7 @@ my_cmap.set_bad("0.9")
 
 def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
                    cluster_rows=False, cluster_columns=False,
-                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation"):
+                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation", colorbar=True):
 
     cm = pylab.get_cmap(colormap)
     cm.set_bad("0.9")
@@ -28,7 +28,7 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     matplotlib.rcParams['figure.figsize'] = [width, height]    
     #    pylab.figsize(20, 10)
     pylab.title(title)
-    pylab.text(0,-5,str(datetime.date.today()))
+#    pylab.text(0,-5,str(datetime.date.today()))
     
     # ylabels = [genesym[geneid] for geneid in pt.axes[0][Z['leaves']]]
     #  xlabels = pt.axes[1][cZ['leaves']]
@@ -62,5 +62,6 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
     pylab.imshow(orderedVal, interpolation="nearest", cmap=cm, aspect='auto', norm=None, vmin=vmin, vmax=vmax)
-    pylab.colorbar(shrink=0.1)
+    if colorbar:
+        pylab.colorbar(shrink=0.1)
     #hcluster.dendrogram(Y, orientation='top')
