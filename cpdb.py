@@ -31,12 +31,12 @@ class CPDB():
                                                                                 in entrez_ids 
                                                                                 if i in entrez_geneid_symbols] )
     
-    def get_SYMBOL_matches(self, t):
+    def get_SYMBOL_matches(self, t, pathway_set="Wikipathways"):
         matches = []
         t = set(t)
     
 
-        for (k, pathway_geneids) in self.cpdb_uppersym["Wikipathways"].items():
+        for (k, pathway_geneids) in self.cpdb_uppersym[pathway_set].items():
             intersect_set = t.intersection(pathway_geneids)
             matches.append((k, len(intersect_set), len(pathway_geneids), intersect_set ))
             
