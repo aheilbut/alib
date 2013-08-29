@@ -17,14 +17,16 @@ my_cmap = matplotlib.colors.LinearSegmentedColormap('my_colormap', cdict, 256)
 my_cmap.set_bad("0.9")
 
 def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
-                   cluster_rows=False, cluster_columns=False,
+                   cluster_rows=False, cluster_columns=False, cluster_data=None,
                    row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation", colorbar=True, colorbar_shrink=0.2):
 
     cm = pylab.get_cmap(colormap)
     cm.set_bad("0.9")
 
     # do clustering 
-    
+    if cluster_data is None:
+        cluster_data = df # cluster the same data that we are plotting    
+
     matplotlib.rcParams['figure.figsize'] = [width, height]    
     #    pylab.figsize(20, 10)
     pylab.title(title)
@@ -36,7 +38,7 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     orderedVal = df
     
     if cluster_rows:
-        distances = scipy.cluster.hierarchy.distance.pdist(df.values, distmethod)
+        distances = scipy.cluster.hierarchy.distance.pdist(cluster_data.values, distmethod).clip(0, 5)
         rowY = scipy.cluster.hierarchy.linkage(distances)
         rowZ = scipy.cluster.hierarchy.dendrogram(rowY, orientation='right', no_plot=True)
         orderedVal = df.reindex(index=df.axes[0][rowZ['leaves']])
