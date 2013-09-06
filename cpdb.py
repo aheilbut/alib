@@ -1,4 +1,5 @@
 import pandas
+import alib_local
 
 class CPDB():
     def __init__(self):
@@ -9,7 +10,7 @@ class CPDB():
         self.cpdb_geneid = {}
         self.cpdb_uppersym = {}
         
-        gene_info = pandas.DataFrame.from_csv("/data/adrian/data/ncbigene" + "/gene_info.humanmouse.withHeader.tab", 
+        gene_info = pandas.DataFrame.from_csv(alib_local.datadir + "/gene_info.humanmouse.withHeader.tab", 
                                           header=0, 
                                           index_col=None, 
                                           sep="\t")        
