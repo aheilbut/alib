@@ -1,6 +1,7 @@
 import datetime
 import scipy.cluster
 import pylab, matplotlib
+import fastcluster
 
 
 # set up blue red color map 
@@ -38,8 +39,8 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     orderedVal = df
     
     if cluster_rows:
-        distances = scipy.cluster.hierarchy.distance.pdist(cluster_data.values, distmethod).clip(0, 5)
-        rowY = scipy.cluster.hierarchy.linkage(distances)
+        distances = scipy.cluster.hierarchy.distance.pdist(cluster_data.values, distmethod)
+        rowY = fastcluster.linkage(distances)
         rowZ = scipy.cluster.hierarchy.dendrogram(rowY, orientation='right', no_plot=True)
         orderedVal = df.reindex(index=df.axes[0][rowZ['leaves']])
 
