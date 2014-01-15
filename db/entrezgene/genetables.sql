@@ -1,4 +1,4 @@
-CREATE TABLE geneinfo (
+CREATE TABLE ncbi_geneinfo (
   tax_id INTEGER,
   gene_id INTEGER,
   symbol TEXT,
@@ -16,7 +16,7 @@ CREATE TABLE geneinfo (
   mod_date TEXT
 )
 
-CREATE TABLE gene2acc (
+CREATE TABLE ncbi_gene2acc (
   tax_id INTEGER,
   gene_id INTEGER,
   status TEXT,
@@ -55,3 +55,4 @@ select iA.symbol, iB.symbol, COUNT(DISTINCT pmid) from generif_intx
  INNER JOIN geneinfo iB ON tax_id_b = iB.tax_id AND gene_id_b = iB.gene_id
  GROUP BY iA.symbol, iB.symbol
 
+\copy ncbi_geneinfo from '/Users/heilbut/alib_data/gene_info.humanmouse.withHeader.tab' WITH DELIMITER '  ' CSV HEADER
