@@ -1,5 +1,5 @@
 import pandas
-import alib_local
+from .. import alib_local
 
 class CPDB():
     def __init__(self):
