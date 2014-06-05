@@ -14,7 +14,7 @@ import statsmodels.sandbox
 
 import statsmodels.sandbox.stats.multicomp as multicomp
 
-import alib_local
+from .. import alib_local
     
 class WikiPathSets():
     def __init__(self):
