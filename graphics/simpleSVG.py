@@ -98,6 +98,9 @@ class Text:
         fs = "font-size"
         el = ET.SubElement(parent,"text",x=str(self.origin[0]),y=str(self.origin[1]))
         el.set("font-size",str(self.size))
+        el.set("font-family", "Times")
+        el.set("stroke", "None")
+
         el.text = self.text
     
     def bbox(self):
