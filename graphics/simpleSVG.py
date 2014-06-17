@@ -40,7 +40,7 @@ class SVGScene:
 
     def line(self,start,end): self.items.append(Line(start,end))
     def circle(self,center,radius,color='blue'): self.items.append(Circle(center,radius,color))
-    def rectangle(self,origin,height,width,color='blue'): self.items.append(Rectangle(origin,height,width,color))
+    def rectangle(self,origin,height,width,color='blue', description=""): self.items.append(Rectangle(origin,height,width,color, description))
     def text(self,origin,text,size=24): self.items.append(Text(origin,text,size))
     
 class Line:
@@ -72,16 +72,20 @@ class Circle:
         return self.center[0]-self.radius,self.center[0]+self.radius,self.center[1]-self.radius,self.center[1]+self.radius
 
 class Rectangle:
-    def __init__(self,origin,height,width,color):
+    def __init__(self,origin,height,width,color, description=""):
         self.origin = origin
         self.height = height
         self.width = width
         self.color = color
+        self.description = description
         return
 
     def to_svg(self,parent):
         color = colorstr(self.color)
-        ET.SubElement(parent,"rect",x=str(self.origin[0]),y=str(self.origin[1]),height=str(self.height),
+        g = ET.SubElement(parent, "g")
+        title = ET.SubElement(g, "title")
+        title.text= self.description
+        ET.SubElement(g,"rect",x=str(self.origin[0]),y=str(self.origin[1]),height=str(self.height),
                       width=str(self.width),style="fill:%s;" % color)
 
     def bbox(self):

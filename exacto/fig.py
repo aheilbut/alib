@@ -26,7 +26,7 @@ class ExonClustFigure():
         self.cluster_min_xpos = {}
         
     def draw(self):
-        cur_x_pos = 120.0
+        cur_x_pos = 140.0
         
         self.scene.text((0, 100.20), "all exons", size=10)            
         for i, k in enumerate(self.sources):
@@ -103,6 +103,7 @@ class ExonClustFigure():
                 
                 ex_quant_height = min( 30.0, bar_height * exon.expression_value / quant_set.max_quant_value )
                 
-                self.scene.rectangle( (ex_quant_xpos, y_pos-ex_quant_height), ex_quant_height, ex_quant_width, color='red')
+                self.scene.rectangle( (ex_quant_xpos, y_pos-ex_quant_height), ex_quant_height, 
+                                      ex_quant_width, color='red', description = str(exon.expression_value))
                 
             y_pos += 60.0
