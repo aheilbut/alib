@@ -29,25 +29,28 @@ class TagMan():
         for s in encodedStrings:
             try:
                 td = dict(self.d(s))
+
+                current_match = True
+                for searchTag in searchTagList:
+                    if isinstance(searchTag, (list, tuple)):
+                        if td.get(searchTag[0], None) == searchTag[1]:
+                            pass
+                        else:
+                            current_match = False
+                            
+                    else:
+                        if td.has_key(searchTag):
+                            pass
+                        else:
+                            current_match = False
+                        
+                        
+                if current_match is True:
+                    resultStrings.append(s)
+
             except:
                 print "not an encoded tag list"
-            current_match = True
-            for searchTag in searchTagList:
-                if isinstance(searchTag, (list, tuple)):
-                    if td.get(searchTag[0], None) == searchTag[1]:
-                        pass
-                    else:
-                        current_match = False
-                        
-                else:
-                    if td.has_key(searchTag):
-                        pass
-                    else:
-                        current_match = False
-                    
-                    
-            if current_match is True:
-                resultStrings.append(s)
+
                 
         return resultStrings
     

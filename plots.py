@@ -19,7 +19,7 @@ my_cmap.set_bad("0.9")
 
 def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap, 
                    cluster_rows=False, cluster_columns=False, cluster_data=None,
-                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation", colorbar=True, colorbar_shrink=0.2):
+                   row_dendrogram=False, column_dendrogram=False, width=30, height=20, vmin=-3, vmax=3, distmethod="correlation", colorbar=True, colorbar_shrink=0.2, label_values=False):
 
     cm = pylab.get_cmap(colormap)
     cm.set_bad("0.9")
@@ -61,6 +61,15 @@ def clusterHeatmap(df, title, row_label_map, col_label_map, colormap=my_cmap,
     
     if col_label_map is not None:
         pylab.xticks(range(0, len(orderedVal.columns)), [col_label_map[i] for i in orderedVal.columns])                
+    
+
+    if label_values:
+        cmatrix = orderedVal.as_matrix()
+        for x in range(cmatrix.shape[0]):
+            for y in range(cmatrix.shape[1]):
+                if cmatrix[x, y] >= 0:
+                    pylab.text(y, x, "%.1f" % cmatrix[x,y], horizontalalignment='center',
+                 verticalalignment='center')        
     
     #orderedVal = orderedVal[:,]
     pylab.tick_params(direction="out")
